@@ -1,8 +1,34 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /*fraction*/
+}
+
+.section {
+  margin: 0px 30px;
 }
 
 a {
-  color: #00B7FF;
+  text-decoration: none;
+  color:rgb(27, 149, 224);
+}
+
+a:hover {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+#dbLink {
+  font-size: 18px;
+  padding: 5px;
+}
+
+body {
+background-color: #243447;
+color: white;
+}
+
+@media (max-width: 1024px) { /*breakpoint*/
+  .container {
+    grid-template-columns: none;
+  }
 }
