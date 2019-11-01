@@ -14,7 +14,7 @@ function getTopics(callback) {
     allas.connect((err, client) => {
         if (err) throw err;
         // luodaan kysely
-        client.query('select * from topics', (err, data) => {
+        client.query('SELECT * FROM topics', (err, data) => {
             if (err) throw err;
             client.release();
             callback(data.rows);
@@ -22,17 +22,30 @@ function getTopics(callback) {
     });
 }
 
-function update(req, callback) {
+function getATopic(req, callback) {
+    // haetaan yhteys altaasta
     allas.connect((err, client) => {
-        if(err) throw err;
-        client.query('UPDATE topics SET nimi = $1, email=$2, kaupunki=$3 WHERE id=$4',
-        [req.body.nimi, req.body.email, req.body.kaupunki, parseInt(req.params.id)],
-        (err, data) => {
-            if(err) throw err;
-            client.release();
-            callback();
-        });
+        if (err) throw err;
+        client.query('SELECT * FROM topics WHERE id=$1', [parseInt(req.params.id)],
+            (err, data) => {
+                if (err) throw err;
+                client.release();
+                callback(data.rows);
+            });
     });
 }
 
-module.exports = { getTopics, update };
+function update(req, callback) {
+    allas.connect((err, client) => {
+        if (err) throw err;
+        client.query('UPDATE topics SET nimi = $1, email=$2, kaupunki=$3 WHERE id=$4',
+            [req.body.nimi, req.body.email, req.body.kaupunki, parseInt(req.params.id)],
+            (err, data) => {
+                if (err) throw err;
+                client.release();
+                callback();
+            });
+    });
+}
+
+module.exports = { getTopics, getATopic, update };
