@@ -20,7 +20,12 @@ router.get('/api/topics', function (req, res) {
 router.get('/api/topics/:id', function (req, res) {
   console.log('/api/topics/:id toimii');
   palvelu.getATopic(req, function (results) {
-    res.json(results);
+    console.log(results);
+    if (results.length == 0) {
+      res.json('Topic ID Does Not Exist');
+    } else {
+      res.json(results);
+    }
   });
 });
 
